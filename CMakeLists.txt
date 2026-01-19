@@ -1,0 +1,54 @@
+cmake_minimum_required(VERSION 3.23)
+project(ComputationalGraph)
+set(CMAKE_C_STANDARD 17)
+set(CMAKE_C_FLAGS "-O3")
+
+find_package(math_c REQUIRED)
+find_package(data_structure_c REQUIRED)
+find_package(classification_c REQUIRED)
+
+add_library(ComputationalGraph
+        src/Function/Function.h
+        src/Function/Delu.c
+        src/Function/Delu.h
+        src/Function/Dropout.c
+        src/Function/Dropout.h
+        src/Function/Elu.c
+        src/Function/Elu.h
+        src/Function/Negation.c
+        src/Function/Negation.h
+        src/Function/Relu.c
+        src/Function/Relu.h
+        src/Function/Sigmoid.c
+        src/Function/Sigmoid.h
+        src/Function/SoftMax.c
+        src/Function/SoftMax.h
+        src/Function/Tanh.c
+        src/Function/Tanh.h
+        src/Initialization/HeUniformInitialization.h
+        src/Initialization/RandomInitialization.h
+        src/Initialization/UniformXavierInitialization.h
+        src/Node/ComputationalNode.c
+        src/Node/ComputationalNode.h
+        src/Node/MultiplicationNode.c
+        src/Node/MultiplicationNode.h
+        src/Node/ConcatenatedNode.c
+        src/Node/ConcatenatedNode.h
+        src/Optimizer/Optimizer.c
+        src/Optimizer/Optimizer.h
+        src/Optimizer/SGDMomentum.c
+        src/Optimizer/SGDMomentum.h
+        src/Optimizer/StochasticGradientDescent.c
+        src/Optimizer/StochasticGradientDescent.h
+        src/Optimizer/Adam.c
+        src/Optimizer/Adam.h
+        src/ComputationalGraph.c
+        src/ComputationalGraph.h
+        src/NeuralNetworkParameter.c
+        src/NeuralNetworkParameter.h
+        src/Initialization/Initialization.h)
+target_link_libraries(ComputationalGraph
+        math_c::math_c
+        data_structure_c::data_structure_c
+        classification_c::classification_c
+        m)
