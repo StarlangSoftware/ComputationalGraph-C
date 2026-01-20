@@ -11,6 +11,7 @@ Sgd_momentum_ptr create_sgd_momentum(const double learning_rate, const double et
     set_attributes_sgd_momentum(result, learning_rate, eta_decrease, momentum);
     result->optimizer.set_gradients = set_gradients_sgd_momentum;
     result->optimizer.optimizer = result;
+    result->optimizer.type = SGD_MOMENTUM;
     return result;
 }
 

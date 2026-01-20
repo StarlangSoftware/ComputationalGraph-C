@@ -12,6 +12,7 @@ AdamW_ptr create_adamW(double learning_rate, double eta_decrease, double beta1, 
     set_attributes_adamW(result, learning_rate, eta_decrease, beta1, beta2, weight_decay, epsilon);
     result->adam.sgd.optimizer.optimizer = result;
     result->adam.sgd.optimizer.set_gradients = set_gradients_adamW;
+    result->adam.sgd.optimizer.type = ADAM_W;
     return result;
 }
 
@@ -41,4 +42,26 @@ void set_attributes_adamW(AdamW *a, double learning_rate, double eta_decrease, d
     double weight_decay, double epsilon) {
     set_attributes_adam(&(a->adam), learning_rate, eta_decrease, beta1, beta2, epsilon);
     a->weight_decay = weight_decay;
+}
+
+/**
+ * Updates the values of all learnable nodes in the graph.
+ * @param optimizer Current optimizer
+ * @param node_map A map of nodes to their children.
+ */
+void update_values_adamW(Optimizer_ptr optimizer, Hash_map_ptr node_map) {
+    AdamW* adam = optimizer->optimizer;
+    adam->adam.current_beta1 *= adam->adam.sgd.momentum;
+    adam->adam.current_beta2 *= adam->adam.beta2;
+    Hash_set_ptr visited = create_hash_set((unsigned int (*)(const void *, int)) hash_function_computational_node,
+        (int (*)(const void *, const void *)) compare_computational_node);
+    Array_list_ptr keys = key_list(node_map);
+    for (int i = 0; i < keys->size; i++) {
+        Computational_node_ptr node = array_list_get(keys, i);
+        if (!hash_set_contains(visited, node)) {
+            update_recursive(optimizer, visited, node, node_map);
+        }
+    }
+    free_array_list(keys, NULL);
+    free_hash_set(visited, NULL);
 }

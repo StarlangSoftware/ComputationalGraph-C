@@ -8,7 +8,14 @@
 #include "../Node/ComputationalNode.h"
 #include "HashMap/HashSet.h"
 
+enum optimizer_type {
+    OPTIMIZER, ADAM, ADAM_W, SGD_MOMENTUM, SGD,
+};
+
+typedef enum optimizer_type Optimizer_type;
+
 struct optimizer {
+    Optimizer_type type;
     void* optimizer;
     void (*set_gradients)(void*, Computational_node_ptr);
     double learning_rate;

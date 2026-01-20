@@ -12,6 +12,7 @@ Optimizer_ptr create_optimizer(const double learning_rate, const double eta_decr
     set_attributes_optimizer(result, learning_rate, eta_decrease);
     result->set_gradients = NULL;
     result->optimizer = result;
+    result->type = OPTIMIZER;
     return result;
 }
 

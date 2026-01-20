@@ -12,6 +12,7 @@ Adam_ptr create_adam(const double learning_rate, const double eta_decrease, cons
     set_attributes_adam(result, learning_rate, eta_decrease, beta1, beta2, epsilon);
     result->sgd.optimizer.optimizer = result;
     result->sgd.optimizer.set_gradients = set_gradients_adam;
+    result->sgd.optimizer.type = ADAM;
     return result;
 }
 
@@ -64,8 +65,6 @@ double* calculate_gradients_adam(void *a, Computational_node_ptr node) {
     }
     hash_map_insert(adam->sgd.velocity_map, node, copy_values_velocity);
     hash_map_insert(adam->momentum_map, node, copy_values_momentum);
-    adam->current_beta1 *= adam->sgd.momentum;
-    adam->current_beta2 *= adam->beta2;
     for (int i = 0; i < node->backward->total_elements; i++) {
         new_values_momentum[i] /= 1 - adam->current_beta1;
         new_values_velocity[i] /= 1 - adam->current_beta2;
@@ -94,4 +93,26 @@ void set_attributes_adam(Adam_ptr adam, double learning_rate, double eta_decreas
     adam->current_beta2 = 1;
     adam->momentum_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_computational_node,
         (int (*)(const void *, const void *)) compare_computational_node);
+}
+
+/**
+ * Updates the values of all learnable nodes in the graph.
+ * @param optimizer Current optimizer
+ * @param node_map A map of nodes to their children.
+ */
+void update_values_adam(Optimizer_ptr optimizer, Hash_map_ptr node_map) {
+    Adam* adam = optimizer->optimizer;
+    adam->current_beta1 *= adam->sgd.momentum;
+    adam->current_beta2 *= adam->beta2;
+    Hash_set_ptr visited = create_hash_set((unsigned int (*)(const void *, int)) hash_function_computational_node,
+        (int (*)(const void *, const void *)) compare_computational_node);
+    Array_list_ptr keys = key_list(node_map);
+    for (int i = 0; i < keys->size; i++) {
+        Computational_node_ptr node = array_list_get(keys, i);
+        if (!hash_set_contains(visited, node)) {
+            update_recursive(optimizer, visited, node, node_map);
+        }
+    }
+    free_array_list(keys, NULL);
+    free_hash_set(visited, NULL);
 }

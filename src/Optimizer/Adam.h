@@ -29,4 +29,6 @@ void set_gradients_adam(void* a, Computational_node_ptr node);
 
 void set_attributes_adam(Adam_ptr adam, double learning_rate, double eta_decrease, double beta1, double beta2, double epsilon);
 
+void update_values_adam(Optimizer_ptr optimizer, Hash_map_ptr node_map);
+
 #endif //COMPUTATIONALGRAPH_ADAM_H

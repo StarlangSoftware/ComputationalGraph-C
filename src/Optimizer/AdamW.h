@@ -24,4 +24,6 @@ void set_gradients_adamW(void* a, Computational_node_ptr node);
 
 void set_attributes_adamW(AdamW* a, double learning_rate, double eta_decrease, double beta1, double beta2, double weight_decay, double epsilon);
 
+void update_values_adamW(Optimizer_ptr optimizer, Hash_map_ptr node_map);
+
 #endif //COMPUTATIONALGRAPH_ADAMW_H

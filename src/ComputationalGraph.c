@@ -8,6 +8,8 @@
 #include <Memory/Memory.h>
 #include "Node/ConcatenatedNode.h"
 #include <CounterHashMap.h>
+#include "Optimizer/Adam.h"
+#include "Optimizer/AdamW.h"
 
 Computational_graph_ptr create_computational_graph() {
     Computational_graph_ptr graph = malloc_(sizeof(Computational_graph));
@@ -358,7 +360,15 @@ void back_propagation(Computational_graph_ptr graph, Optimizer_ptr optimizer, co
             }
         }
     }
-    update_values(optimizer, graph->node_map);
+    if (optimizer->type == ADAM) {
+        update_values_adam(optimizer, graph->node_map);
+    } else {
+        if (optimizer->type == ADAM_W) {
+            update_values_adamW(optimizer, graph->node_map);
+        } else {
+            update_values(optimizer, graph->node_map);
+        }
+    }
     clear_computational_graph(graph);
     free_linked_list(sorted_nodes, NULL);
 }

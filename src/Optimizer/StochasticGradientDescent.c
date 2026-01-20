@@ -9,6 +9,7 @@
 Optimizer_ptr create_stochastic_gradient(double learning_rate, double eta_decrease) {
     Optimizer_ptr result = create_optimizer(learning_rate, eta_decrease);
     result->set_gradients = set_gradients_stochastic_gradient_descent;
+    result->type = SGD;
     return result;
 }
 
