@@ -8,13 +8,9 @@
 
 Sgd_momentum_ptr create_sgd_momentum(const double learning_rate, const double eta_decrease, const double momentum) {
     Sgd_momentum_ptr result = malloc_(sizeof(Sgd_momentum));
-    result->optimizer.learning_rate = learning_rate;
-    result->optimizer.eta_decrease = eta_decrease;
+    set_attributes_sgd_momentum(result, learning_rate, eta_decrease, momentum);
     result->optimizer.set_gradients = set_gradients_sgd_momentum;
     result->optimizer.optimizer = result;
-    result->momentum = momentum;
-    result->velocity_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_computational_node,
-        (int (*)(const void *, const void *)) compare_computational_node);
     return result;
 }
 
@@ -52,4 +48,11 @@ void set_gradients_sgd_momentum(void* sgd, Computational_node_ptr node) {
     }
     update_tensor_data(node->backward, new_values);
     free_(new_values);
+}
+
+void set_attributes_sgd_momentum(Sgd_momentum* sgd, const double learning_rate, const double eta_decrease, const double momentum) {
+    set_attributes_optimizer(&(sgd->optimizer), learning_rate, eta_decrease);
+    sgd->velocity_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_computational_node,
+    (int (*)(const void *, const void *)) compare_computational_node);
+    sgd->momentum = momentum;
 }

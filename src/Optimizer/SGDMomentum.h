@@ -21,4 +21,6 @@ void free_sgd_momentum(Sgd_momentum_ptr);
 
 void set_gradients_sgd_momentum(void* sgd, Computational_node_ptr node);
 
+void set_attributes_sgd_momentum(Sgd_momentum* sgd, double learning_rate, double eta_decrease, double momentum);
+
 #endif //COMPUTATIONALGRAPH_SGDMOMENTUM_H

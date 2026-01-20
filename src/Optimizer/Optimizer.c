@@ -9,8 +9,7 @@
 
 Optimizer_ptr create_optimizer(const double learning_rate, const double eta_decrease) {
     Optimizer_ptr result = malloc_(sizeof(Optimizer));
-    result->learning_rate = learning_rate;
-    result->eta_decrease = eta_decrease;
+    set_attributes_optimizer(result, learning_rate, eta_decrease);
     result->set_gradients = NULL;
     result->optimizer = result;
     return result;
@@ -104,4 +103,9 @@ void update_values(Optimizer_ptr optimizer, Hash_map_ptr node_map) {
     }
     free_array_list(keys, NULL);
     free_hash_set(visited, NULL);
+}
+
+void set_attributes_optimizer(Optimizer *optimizer, double learning_rate, double eta_decrease) {
+    optimizer->learning_rate = learning_rate;
+    optimizer->eta_decrease = eta_decrease;
 }

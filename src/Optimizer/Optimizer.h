@@ -29,4 +29,6 @@ void update_recursive(Optimizer_ptr optimizer, Hash_set_ptr visited, Computation
 
 void update_values(Optimizer_ptr optimizer, Hash_map_ptr node_map);
 
+void set_attributes_optimizer(Optimizer* optimizer, double learning_rate, double eta_decrease);
+
 #endif //COMPUTATIONALGRAPH_OPTIMIZER_H

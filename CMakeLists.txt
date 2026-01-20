@@ -46,8 +46,59 @@ add_library(ComputationalGraph
         src/ComputationalGraph.h
         src/NeuralNetworkParameter.c
         src/NeuralNetworkParameter.h
-        src/Initialization/Initialization.h)
+        src/Initialization/Initialization.h
+        src/Optimizer/AdamW.c
+        src/Optimizer/AdamW.h)
 target_link_libraries(ComputationalGraph
+        math_c::math_c
+        data_structure_c::data_structure_c
+        classification_c::classification_c
+        m)
+add_executable(ComputationalGraphTest
+        src/Function/Function.h
+        src/Function/Delu.c
+        src/Function/Delu.h
+        src/Function/Dropout.c
+        src/Function/Dropout.h
+        src/Function/Elu.c
+        src/Function/Elu.h
+        src/Function/Negation.c
+        src/Function/Negation.h
+        src/Function/Relu.c
+        src/Function/Relu.h
+        src/Function/Sigmoid.c
+        src/Function/Sigmoid.h
+        src/Function/SoftMax.c
+        src/Function/SoftMax.h
+        src/Function/Tanh.c
+        src/Function/Tanh.h
+        src/Initialization/HeUniformInitialization.h
+        src/Initialization/RandomInitialization.h
+        src/Initialization/UniformXavierInitialization.h
+        src/Node/ComputationalNode.c
+        src/Node/ComputationalNode.h
+        src/Node/MultiplicationNode.c
+        src/Node/MultiplicationNode.h
+        src/Node/ConcatenatedNode.c
+        src/Node/ConcatenatedNode.h
+        src/Optimizer/Optimizer.c
+        src/Optimizer/Optimizer.h
+        src/Optimizer/SGDMomentum.c
+        src/Optimizer/SGDMomentum.h
+        src/Optimizer/StochasticGradientDescent.c
+        src/Optimizer/StochasticGradientDescent.h
+        src/Optimizer/Adam.c
+        src/Optimizer/Adam.h
+        src/ComputationalGraph.c
+        src/ComputationalGraph.h
+        src/NeuralNetworkParameter.c
+        src/NeuralNetworkParameter.h
+        src/Initialization/Initialization.h
+        test/NeuralNet.c
+        test/NeuralNet.h
+        src/Optimizer/AdamW.c
+        src/Optimizer/AdamW.h)
+target_link_libraries(ComputationalGraphTest
         math_c::math_c
         data_structure_c::data_structure_c
         classification_c::classification_c

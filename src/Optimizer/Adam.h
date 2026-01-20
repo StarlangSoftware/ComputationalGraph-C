@@ -11,6 +11,8 @@ struct Adam {
     Hash_map_ptr momentum_map;
     double beta2;
     double epsilon;
+    double current_beta1;
+    double current_beta2;
 };
 
 typedef struct Adam Adam;
@@ -21,6 +23,10 @@ Adam_ptr create_adam(double learning_rate, double eta_decrease, double beta1, do
 
 void free_adam(Adam_ptr adam);
 
+double* calculate_gradients_adam(void *a, Computational_node_ptr node);
+
 void set_gradients_adam(void* a, Computational_node_ptr node);
+
+void set_attributes_adam(Adam_ptr adam, double learning_rate, double eta_decrease, double beta1, double beta2, double epsilon);
 
 #endif //COMPUTATIONALGRAPH_ADAM_H

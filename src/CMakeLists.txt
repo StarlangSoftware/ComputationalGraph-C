@@ -42,8 +42,13 @@ add_library(ComputationalGraph
         Optimizer/StochasticGradientDescent.h
         Optimizer/Adam.c
         Optimizer/Adam.h
+        Optimizer/AdamW.c
+        Optimizer/AdamW.h
         ComputationalGraph.c
-        ComputationalGraph.h)
+        ComputationalGraph.h
+        NeuralNetworkParameter.c
+        NeuralNetworkParameter.h
+        Initialization/Initialization.h)
 target_link_libraries(ComputationalGraph
         math_c::math_c
         data_structure_c::data_structure_c
