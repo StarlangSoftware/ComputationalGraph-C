@@ -109,4 +109,5 @@ void update_values(Optimizer_ptr optimizer, Hash_map_ptr node_map) {
 void set_attributes_optimizer(Optimizer *optimizer, double learning_rate, double eta_decrease) {
     optimizer->learning_rate = learning_rate;
     optimizer->eta_decrease = eta_decrease;
+    optimizer->update_values = update_values;
 }

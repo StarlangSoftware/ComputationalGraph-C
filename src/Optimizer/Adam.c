@@ -87,6 +87,7 @@ void set_gradients_adam(void *a, Computational_node_ptr node) {
 void set_attributes_adam(Adam_ptr adam, double learning_rate, double eta_decrease, double beta1, double beta2,
     double epsilon) {
     set_attributes_sgd_momentum(&(adam->sgd), learning_rate, eta_decrease, beta1);
+    adam->sgd.optimizer.update_values = update_values_adam;
     adam->beta2 = beta2;
     adam->epsilon = epsilon;
     adam->current_beta1 = 1;

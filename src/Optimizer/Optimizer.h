@@ -18,6 +18,7 @@ struct optimizer {
     Optimizer_type type;
     void* optimizer;
     void (*set_gradients)(void*, Computational_node_ptr);
+    void (*update_values)(struct optimizer* optimizer, Hash_map_ptr node_map);
     double learning_rate;
     double eta_decrease;
 };
