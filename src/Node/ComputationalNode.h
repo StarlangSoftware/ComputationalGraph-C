@@ -20,7 +20,7 @@ struct computational_node {
     Tensor_ptr backward;
     bool learnable;
     bool is_biased;
-    Function* function;
+    void* function;
 };
 
 typedef struct computational_node Computational_node;

@@ -8,6 +8,8 @@
 #include <Memory/Memory.h>
 #include "Node/ConcatenatedNode.h"
 #include <CounterHashMap.h>
+#include <stdio.h>
+
 #include "Optimizer/Adam.h"
 #include "Optimizer/AdamW.h"
 
@@ -31,7 +33,7 @@ void free_computational_graph(Computational_graph_ptr graph) {
     free_(graph);
 }
 
-void *add_edge(Computational_graph_ptr graph, Computational_node_ptr first, Function *second,
+void *add_edge(Computational_graph_ptr graph, Computational_node_ptr first, void *second,
                bool is_biased) {
     Computational_node_ptr new_node = create_computational_node2(false, is_biased, second);
     add_to_hash_map_of_array_list(graph->node_map, first, new_node);
@@ -39,7 +41,7 @@ void *add_edge(Computational_graph_ptr graph, Computational_node_ptr first, Func
     return new_node;
 }
 
-void *add_edge2(Computational_graph_ptr graph, Computational_node_ptr first,
+void *add_multiplication_edge(Computational_graph_ptr graph, Computational_node_ptr first,
                 Multiplication_node_ptr second, bool is_biased) {
     Multiplication_node_ptr new_node = create_multiplication_node2(false, is_biased, second->is_hadamard, first);
     add_to_hash_map_of_array_list(graph->node_map, first, new_node);
@@ -49,7 +51,7 @@ void *add_edge2(Computational_graph_ptr graph, Computational_node_ptr first,
     return new_node;
 }
 
-void *add_edge3(Computational_graph_ptr graph, Computational_node_ptr first,
+void *add_edge_with_hadamard(Computational_graph_ptr graph, Computational_node_ptr first,
                 Computational_node_ptr second, bool is_biased, bool is_hadamard) {
     Multiplication_node_ptr new_node = create_multiplication_node2(false, is_biased, is_hadamard, first);
     add_to_hash_map_of_array_list(graph->node_map, first, new_node);
@@ -381,6 +383,9 @@ void get_biased(Computational_node_ptr tensor) {
             values[k++] = 1.0;
         }
     }
+    if (k != tensor->value->total_elements + (tensor->value->total_elements / last_dimension_size)) {
+        perror("Biased tensor size does not match");
+    }
     int *shape = malloc_((tensor->value->dimensions * sizeof(int)));
     for (int i = 0; i < tensor->value->dimensions; i++) {
         if (i == tensor->value->dimensions - 1) {
@@ -441,8 +446,8 @@ Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, b
                 Computational_node_ptr child = array_list_get(children, i);
                 if (child->value == NULL) {
                     if (child->function != NULL) {
-                        Function *function = child->function;
-                        Tensor_ptr current_value = child->value;
+                        const Function* function = child->function;
+                        const Tensor* current_value = current_node->value;
                         if (function->function_type == DROPOUT) {
                             if (is_dropout) {
                                 set_node_value(child, function->calculate(function, current_value));

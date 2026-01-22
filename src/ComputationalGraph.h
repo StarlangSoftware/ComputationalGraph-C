@@ -42,11 +42,11 @@ Computational_graph_ptr create_computational_graph();
 
 void free_computational_graph(Computational_graph_ptr graph);
 
-void* add_edge(Computational_graph_ptr graph, Computational_node_ptr first, Function* second, bool is_biased);
+void* add_edge(Computational_graph_ptr graph, Computational_node_ptr first, void* second, bool is_biased);
 
-void* add_edge2(Computational_graph_ptr graph, Computational_node_ptr first, Multiplication_node_ptr second, bool is_biased);
+void* add_multiplication_edge(Computational_graph_ptr graph, Computational_node_ptr first, Multiplication_node_ptr second, bool is_biased);
 
-void* add_edge3(Computational_graph_ptr graph, Computational_node_ptr first, Computational_node_ptr second, bool is_biased, bool is_hadamard);
+void* add_edge_with_hadamard(Computational_graph_ptr graph, Computational_node_ptr first, Computational_node_ptr second, bool is_biased, bool is_hadamard);
 
 void* add_addition_edge(Computational_graph_ptr graph, Computational_node_ptr first, Computational_node_ptr second, bool is_biased);
 
