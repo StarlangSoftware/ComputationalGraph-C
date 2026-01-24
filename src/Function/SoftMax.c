@@ -34,7 +34,7 @@ Tensor_ptr calculate_softmax(const void* function, const Tensor* tensor) {
     int k = 0;
     for (int i = 0; i < tensor->total_elements; i++) {
         sum += exp(old_values[i]);
-        if (i + 1 % last_dimension_size == 0) {
+        if ((i + 1) % last_dimension_size == 0) {
             sum_list[k] = sum;
             k++;
             sum = 0.0;
@@ -43,6 +43,7 @@ Tensor_ptr calculate_softmax(const void* function, const Tensor* tensor) {
     for (int i = 0; i < tensor->total_elements; i++) {
         values[i] = exp(old_values[i]) / sum_list[i / last_dimension_size];
     }
+    free_(sum_list);
     return create_tensor3(values, tensor->shape, tensor->dimensions);
 }
 

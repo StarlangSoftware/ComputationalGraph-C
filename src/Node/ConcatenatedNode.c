@@ -23,10 +23,10 @@ Concatenated_node_ptr create_concatenated_node(int dimension) {
 }
 
 void free_concatenated_node(Concatenated_node_ptr concatenated_node) {
-    free_(concatenated_node);
     free_tensor(concatenated_node->node.value);
     free_tensor(concatenated_node->node.backward);
     free_hash_map(concatenated_node->index_map, free_);
+    free_(concatenated_node);
 }
 
 int compare_computational_node(const Computational_node *first, const Computational_node *second) {

@@ -32,7 +32,7 @@ Multiplication_node_ptr create_multiplication_node3(bool learnable, bool is_bias
 }
 
 void free_multiplication_node(Multiplication_node_ptr multiplication_node) {
-    free_(multiplication_node);
     free_tensor(multiplication_node->node.value);
     free_tensor(multiplication_node->node.backward);
+    free_(multiplication_node);
 }

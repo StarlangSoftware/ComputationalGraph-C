@@ -28,7 +28,23 @@ Computational_graph_ptr create_computational_graph() {
 
 void free_computational_graph(Computational_graph_ptr graph) {
     free_array_list(graph->input_nodes, NULL);
+    Array_list_ptr list = key_list(graph->node_map);
     free_hash_map_of_array_list(graph->node_map, NULL);
+    for (int i = 0; i < list->size; i++) {
+        Computational_node_ptr node = array_list_get(list, i);
+        switch (node->type) {
+            case COMPUTATIONAL_NODE:
+                free_computational_node(node);
+                break;
+            case CONCATENATED_NODE:
+                free_concatenated_node((Concatenated_node_ptr)node);
+                break;
+            case MULTIPLICATION_NODE:
+                free_multiplication_node((Multiplication_node_ptr)node);
+                break;
+        }
+    }
+    free_array_list(list, NULL);
     free_hash_map_of_array_list(graph->reverse_node_map, NULL);
     free_(graph);
 }
@@ -137,7 +153,13 @@ Linked_list_ptr topological_sort(Computational_graph_ptr graph) {
 void clear_recursive(Computational_graph_ptr graph, Hash_set_ptr visited, Computational_node_ptr node) {
     hash_set_insert(visited, node);
     if (!node->learnable) {
+        if (node->value != NULL) {
+            free_tensor(node->value);
+        }
         node->value = NULL;
+    }
+    if (node->backward != NULL) {
+        free_tensor(node->backward);
     }
     node->backward = NULL;
     if (hash_map_contains(graph->node_map, node)) {

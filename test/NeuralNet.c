@@ -22,6 +22,7 @@ Tensor_ptr create_input_tensor(Tensor_ptr instance) {
 
 void train_linear_perceptron_single_point() {
     Computational_graph_ptr graph = create_computational_graph();
+    graph->get_class_labels = get_class_labels_linear_perceptron_single_point;
     Optimizer_ptr optimizer = create_stochastic_gradient(0.1, 0.99);
     Multiplication_node_ptr input = create_multiplication_node(false, true, false);
     array_list_add(graph->input_nodes, input);
@@ -30,17 +31,32 @@ void train_linear_perceptron_single_point() {
     Tensor_ptr weights_tensor = create_tensor(initial_weights, weights_shape, 2);
     Multiplication_node_ptr w = create_multiplication_node3(true, false, weights_tensor, false);
     Multiplication_node_ptr a = add_multiplication_edge(graph, (Computational_node_ptr)input, w, false);
-    add_edge(graph, (Computational_node_ptr) a, create_softmax(), false);
+    Softmax_ptr softmax = create_softmax();
+    Computational_node_ptr output_node = add_edge(graph, (Computational_node_ptr) a, softmax, false);
     const double data1[] = {1.0, 1.0};
     const int data_shape[] = {2};
     Tensor_ptr data_tensor = create_tensor(data1, data_shape, 1);
     Tensor_ptr input1 = create_input_tensor(data_tensor);
+    free_tensor(data_tensor);
     input->node.value = input1;
     Array_list_ptr calculated_classes = forward_calculation_with_dropout(graph, false);
+    free_array_list(calculated_classes, free_);
     int classes[1] = {data1[1]};
     back_propagation(graph, optimizer, classes);
+    free_computational_node(output_node);
+    free_computational_graph(graph);
+    free_(optimizer);
+    free_(softmax);
+}
+
+Array_list_ptr get_class_labels_linear_perceptron_single_point(Computational_node_ptr output_node) {
+    Array_list_ptr class_indices = create_array_list();
+    array_list_add_int(class_indices, 0);
+    return class_indices;
 }
 
 int main() {
+    start_large_memory_check();
     train_linear_perceptron_single_point();
+    end_memory_check();
 }
