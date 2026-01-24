@@ -19,13 +19,13 @@ struct computational_graph {
     * @param train_set The training set.
     * @param parameters The parameters of the computational graph.
     */
-    void (*train) (Array_list_ptr train_set, Neural_network_parameter_ptr parameters);
+    void (*train) (struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters);
     /**
      * Tests the computational graph on the given test set.
      * @param test_set The test set.
      * @return The classification performance of the computational graph on the test set.
      */
-    Classification_performance_ptr (*test) (Array_list_ptr test_set);
+    Classification_performance_ptr (*test) (struct computational_graph* graph, Array_list_ptr test_set);
     /**
      * Retrieves the class label indexes associated with the given output node in the computational graph.
      * @param output_node The output node for which the class label indexes are to be retrieved.
@@ -76,6 +76,6 @@ Array_list_ptr predict_by_computational_graph(Computational_graph_ptr graph);
 
 Array_list_ptr forward_calculation(Computational_graph_ptr graph);
 
-Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, bool is_dropout);
+Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, bool enable_dropout);
 
 #endif //COMPUTATIONALGRAPH_COMPUTATIONALGRAPH_H

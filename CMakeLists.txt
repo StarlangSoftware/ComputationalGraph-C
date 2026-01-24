@@ -94,10 +94,13 @@ add_executable(ComputationalGraphTest
         src/NeuralNetworkParameter.c
         src/NeuralNetworkParameter.h
         src/Initialization/Initialization.h
-        test/NeuralNet.c
-        test/NeuralNet.h
+        test/Test.c
         src/Optimizer/AdamW.c
-        src/Optimizer/AdamW.h)
+        src/Optimizer/AdamW.h
+        test/LinearPerceptronSingleUnit.c
+        test/LinearPerceptronSingleUnit.h
+        test/LinearPerceptron.c
+        test/LinearPerceptron.h)
 target_link_libraries(ComputationalGraphTest
         math_c::math_c
         data_structure_c::data_structure_c

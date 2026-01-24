@@ -7,8 +7,6 @@
 #include <stdlib.h>
 #include <Memory/Memory.h>
 
-double* random_initialization(int row, int column, unsigned seed);
-
 /**
  * Random Uniform Initialization.
  * <p>
@@ -22,7 +20,7 @@ double* random_initialization(int row, int column, unsigned seed);
  * @param seed The seed used for generating values.
  * @return An array containing the initialized weight values.
  */
-inline double * random_initialization(int row, int column, unsigned seed) {
+double *random_initialization(int row, int column, unsigned seed) {
     srandom(seed);
     double* data = malloc_(row * column * sizeof(double));
     for (int i = 0; i < row * column; i++) {

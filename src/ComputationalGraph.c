@@ -3,15 +3,12 @@
 //
 
 #include "ComputationalGraph.h"
-
 #include <stdlib.h>
 #include <Memory/Memory.h>
 #include "Node/ConcatenatedNode.h"
 #include <CounterHashMap.h>
 #include <stdio.h>
-
 #include "Optimizer/Adam.h"
-#include "Optimizer/AdamW.h"
 
 Computational_graph_ptr create_computational_graph() {
     Computational_graph_ptr graph = malloc_(sizeof(Computational_graph));
@@ -426,7 +423,7 @@ void get_biased(Computational_node_ptr tensor) {
  * @return A list of predicted class indices.
  */
 Array_list_ptr predict_by_computational_graph(Computational_graph_ptr graph) {
-    Array_list_ptr class_labels = forward_calculation(false);
+    Array_list_ptr class_labels = forward_calculation_with_dropout(graph, false);
     clear_computational_graph(graph);
     return class_labels;
 }
@@ -442,10 +439,10 @@ Array_list_ptr forward_calculation(Computational_graph_ptr graph) {
 /**
  * Perform a forward pass through the computational graph.
  * @param graph Current computational graph
- * @param is_dropout Whether to perform dropout or not.
+ * @param enable_dropout Whether to perform dropout or not.
  * @return A list of predicted class indices.
  */
-Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, bool is_dropout) {
+Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, bool enable_dropout) {
     Linked_list_ptr sorted_nodes = topological_sort(graph);
     if (is_linked_list_empty(sorted_nodes)) {
         return create_array_list();
@@ -471,7 +468,7 @@ Array_list_ptr forward_calculation_with_dropout(Computational_graph_ptr graph, b
                         const Function* function = child->function;
                         const Tensor* current_value = current_node->value;
                         if (function->function_type == DROPOUT) {
-                            if (is_dropout) {
+                            if (enable_dropout) {
                                 set_node_value(child, function->calculate(function, current_value));
                             } else {
                                 set_node_value(child, clone_tensor(current_value));

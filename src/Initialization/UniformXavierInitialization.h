@@ -8,8 +8,6 @@
 #include <tgmath.h>
 #include <Memory/Memory.h>
 
-double* uniform_xavier_initialization(int row, int column, unsigned seed);
-
 /**
  * Xavier Uniform Initialization.
  * <p>
@@ -24,7 +22,7 @@ double* uniform_xavier_initialization(int row, int column, unsigned seed);
  * @param seed The seed used for generating values.
  * @return An array containing the initialized weight values.
  */
-inline double* uniform_xavier_initialization(int row, int column, unsigned seed) {
+double* uniform_xavier_initialization(int row, int column, unsigned seed) {
     srandom(seed);
     double* data = malloc_(row * column * sizeof(double));
     for (int i = 0; i < row; i++) {

@@ -8,8 +8,6 @@
 #include <stdlib.h>
 #include <Memory/Memory.h>
 
-double* he_uniform_initialization(int row, int column, unsigned seed);
-
 /**
  * He Uniform Initialization.
  * <p>
@@ -23,7 +21,7 @@ double* he_uniform_initialization(int row, int column, unsigned seed);
  * @param seed The seed used for generating values (allows for reproducibility).
  * @return An array of Doubles containing the initialized weight values.
  */
-inline double* he_uniform_initialization(int row, int column, unsigned seed) {
+double* he_uniform_initialization(int row, int column, unsigned seed) {
     srandom(seed);
     double* data = malloc_(row * column * sizeof(double));
     for (int i = 0; i < row; i++) {
