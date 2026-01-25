@@ -36,7 +36,6 @@ void train_linear_perceptron_single_point(struct computational_graph* graph, Arr
     back_propagation(graph, optimizer, classes);
     free_computational_node(output_node);
     free_(optimizer);
-    free_(softmax);
 }
 
 void run_linear_perceptron_single_point() {

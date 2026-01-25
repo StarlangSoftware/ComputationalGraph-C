@@ -48,7 +48,10 @@ add_library(ComputationalGraph
         src/NeuralNetworkParameter.h
         src/Initialization/Initialization.h
         src/Optimizer/AdamW.c
-        src/Optimizer/AdamW.h)
+        src/Optimizer/AdamW.h
+        src/Initialization/HeUniformInitialization.c
+        src/Initialization/RandomInitialization.c
+        src/Initialization/UniformXavierInitialization.c)
 target_link_libraries(ComputationalGraph
         math_c::math_c
         data_structure_c::data_structure_c
@@ -104,7 +107,12 @@ add_executable(ComputationalGraphTest
         test/MultiLayerPerceptron.c
         test/MultiLayerPerceptron.h
         test/NeuralNet.c
-        test/NeuralNet.h)
+        test/NeuralNet.h
+        test/DeepNetwork.c
+        test/DeepNetwork.h
+        src/Initialization/HeUniformInitialization.c
+        src/Initialization/RandomInitialization.c
+        src/Initialization/UniformXavierInitialization.c)
 target_link_libraries(ComputationalGraphTest
         math_c::math_c
         data_structure_c::data_structure_c

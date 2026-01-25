@@ -7,7 +7,6 @@
 #include <ArrayList.h>
 #include <Performance/ClassificationPerformance.h>
 #include "../src/ComputationalGraph.h"
-#include "../src/Initialization/RandomInitialization.h"
 
 static double iris_data[150][5] = {{5.1,3.5,1.4,0.2,0},
 {4.9,3.0,1.4,0.2,0},

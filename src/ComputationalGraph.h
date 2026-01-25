@@ -14,6 +14,7 @@ struct computational_graph {
     Hash_map_ptr node_map;
     Hash_map_ptr reverse_node_map;
     Array_list_ptr input_nodes;
+    Computational_node_ptr output_node;
     /**
     * Trains the computational graph using the given training set and parameters.
     * @param train_set The training set.

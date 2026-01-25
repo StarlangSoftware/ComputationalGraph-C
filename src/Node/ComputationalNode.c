@@ -40,6 +40,9 @@ Computational_node_ptr create_computational_node3(bool learnable, bool is_biased
 void free_computational_node(Computational_node_ptr node) {
     free_tensor(node->value);
     free_tensor(node->backward);
+    if (node->function != NULL) {
+        free_(node->function);
+    }
     free_(node);
 }
 

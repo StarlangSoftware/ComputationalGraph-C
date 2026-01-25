@@ -16,6 +16,7 @@ Computational_graph_ptr create_computational_graph() {
     graph->train = NULL;
     graph->test = NULL;
     graph->get_class_labels = NULL;
+    graph->output_node = NULL;
     graph->node_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_computational_node,
                                       (int (*)(const void *, const void *)) compare_computational_node);
     graph->reverse_node_map = create_hash_map((unsigned int (*)(const void *, int)) hash_function_computational_node,
@@ -43,6 +44,9 @@ void free_computational_graph(Computational_graph_ptr graph) {
     }
     free_array_list(list, NULL);
     free_hash_map_of_array_list(graph->reverse_node_map, NULL);
+    if (graph->output_node != NULL) {
+        free_computational_node(graph->output_node);
+    }
     free_(graph);
 }
 

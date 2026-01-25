@@ -8,6 +8,7 @@
 #include "../src/Node/MultiplicationNode.h"
 #include "../src/Optimizer/StochasticGradientDescent.h"
 #include "NeuralNet.h"
+#include "../src/Initialization/RandomInitialization.h"
 
 void train_linear_perceptron(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters) {
     graph->get_class_labels = get_class_labels_classification;
@@ -23,7 +24,7 @@ void train_linear_perceptron(struct computational_graph* graph, Array_list_ptr t
     Multiplication_node_ptr w = create_multiplication_node3(true, false, weights_tensor, false);
     Multiplication_node_ptr a = add_multiplication_edge(graph, (Computational_node_ptr)input, w, false);
     Softmax_ptr softmax = create_softmax();
-    Computational_node_ptr output_node = add_edge(graph, (Computational_node_ptr) a, softmax, false);
+    graph->output_node = add_edge(graph, (Computational_node_ptr) a, softmax, false);
     /*Training*/
     int epoch = 10;
     for (int i = 0; i < epoch; i++) {
