@@ -5,10 +5,12 @@
 #include <Memory/Memory.h>
 #include "LinearPerceptron.h"
 #include "LinearPerceptronSingleUnit.h"
+#include "MultiLayerPerceptron.h"
 
 int main() {
     start_large_memory_check();
     run_linear_perceptron_single_point();
     run_linear_perceptron();
+    run_multi_layer_perceptron();
     end_memory_check();
 }

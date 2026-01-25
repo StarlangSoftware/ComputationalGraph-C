@@ -13,8 +13,6 @@ Array_list_ptr get_class_labels_linear_perceptron_single_point(Computational_nod
 
 void train_linear_perceptron_single_point(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters);
 
-Tensor_ptr create_input_tensor(Tensor_ptr instance);
-
 void run_linear_perceptron_single_point();
 
 #endif //COMPUTATIONALGRAPH_LINEARPERCEPTRONSINGLEUNIT_H

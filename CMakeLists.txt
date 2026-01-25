@@ -100,7 +100,11 @@ add_executable(ComputationalGraphTest
         test/LinearPerceptronSingleUnit.c
         test/LinearPerceptronSingleUnit.h
         test/LinearPerceptron.c
-        test/LinearPerceptron.h)
+        test/LinearPerceptron.h
+        test/MultiLayerPerceptron.c
+        test/MultiLayerPerceptron.h
+        test/NeuralNet.c
+        test/NeuralNet.h)
 target_link_libraries(ComputationalGraphTest
         math_c::math_c
         data_structure_c::data_structure_c

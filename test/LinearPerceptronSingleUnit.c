@@ -4,7 +4,7 @@
 
 #include <Memory/Memory.h>
 #include "LinearPerceptronSingleUnit.h"
-#include "../src/ComputationalGraph.h"
+#include "NeuralNet.h"
 #include "../src/Function/SoftMax.h"
 #include "../src/Node/MultiplicationNode.h"
 #include "../src/Optimizer/StochasticGradientDescent.h"
@@ -13,15 +13,6 @@ Array_list_ptr get_class_labels_linear_perceptron_single_point(Computational_nod
     Array_list_ptr class_indices = create_array_list();
     array_list_add_int(class_indices, 0);
     return class_indices;
-}
-
-Tensor_ptr create_input_tensor(Tensor_ptr instance) {
-    double* data = malloc_((instance->shape[0] - 1) * sizeof(double));
-    for (int i = 0; i < instance->shape[0] - 1; i++) {
-        data[i] = instance->data[i];
-    }
-    const int shape[2] = {1, instance->shape[0] - 1};
-    return create_tensor3(data, shape, 2);
 }
 
 void train_linear_perceptron_single_point(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters) {
