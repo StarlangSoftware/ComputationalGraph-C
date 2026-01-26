@@ -14,7 +14,7 @@
 void train_deep_network(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters) {
     graph->get_class_labels = get_class_labels_classification;
     Optimizer_ptr optimizer = create_stochastic_gradient(0.1, 0.99);
-    Multiplication_node_ptr input = create_multiplication_node(false, true, false);
+    Multiplication_node_ptr input = create_multiplication_node6(false, true);
     array_list_add(graph->input_nodes, input);
     int number_of_input_units_with_biased = 5;
     int numberOfHiddenUnitsInLayer1 = 6;
@@ -22,8 +22,8 @@ void train_deep_network(struct computational_graph* graph, Array_list_ptr train_
     const int weights_shape[] = {number_of_input_units_with_biased, numberOfHiddenUnitsInLayer1};
     Tensor_ptr weights_tensor = create_tensor(initial_weights, weights_shape, 2);
     free_(initial_weights);
-    Multiplication_node_ptr w = create_multiplication_node3(true, false, weights_tensor, false);
-    Multiplication_node_ptr a = add_multiplication_edge(graph, (Computational_node_ptr)input, w, false);
+    Multiplication_node_ptr w = create_multiplication_node5(weights_tensor);
+    Multiplication_node_ptr a = add_multiplication_edge2(graph, (Computational_node_ptr)input, w);
     Sigmoid_ptr sigmoid1 = create_sigmoid();
     Computational_node_ptr a_sigmoid = add_edge(graph, (Computational_node_ptr) a, sigmoid1, true);
     int numberOfHiddenUnitsInLayer2 = 10;
@@ -31,8 +31,8 @@ void train_deep_network(struct computational_graph* graph, Array_list_ptr train_
     const int weights_shape2[] = {numberOfHiddenUnitsInLayer1 + 1, numberOfHiddenUnitsInLayer2};
     Tensor_ptr weights_tensor2 = create_tensor(initial_weights2, weights_shape2, 2);
     free_(initial_weights2);
-    Multiplication_node_ptr w2 = create_multiplication_node3(true, false, weights_tensor2, false);
-    Multiplication_node_ptr a2 = add_multiplication_edge(graph, a_sigmoid, w2, false);
+    Multiplication_node_ptr w2 = create_multiplication_node5(weights_tensor2);
+    Multiplication_node_ptr a2 = add_multiplication_edge2(graph, a_sigmoid, w2);
     Sigmoid_ptr sigmoid2 = create_sigmoid();
     Computational_node_ptr a_sigmoid2 = add_edge(graph, (Computational_node_ptr) a2, sigmoid2, true);
     int number_of_classes = 3;
@@ -40,8 +40,8 @@ void train_deep_network(struct computational_graph* graph, Array_list_ptr train_
     const int weights_shape3[] = {numberOfHiddenUnitsInLayer2 + 1, number_of_classes};
     Tensor_ptr weights_tensor3 = create_tensor(initial_weights3, weights_shape3, 2);
     free_(initial_weights3);
-    Multiplication_node_ptr w3 = create_multiplication_node3(true, false, weights_tensor3, false);
-    Computational_node_ptr a3 = add_multiplication_edge(graph, a_sigmoid2, w3, false);
+    Multiplication_node_ptr w3 = create_multiplication_node5(weights_tensor3);
+    Computational_node_ptr a3 = add_multiplication_edge2(graph, a_sigmoid2, w3);
     Softmax_ptr softmax = create_softmax();
     graph->output_node = add_edge(graph, (Computational_node_ptr) a3, softmax, false);
     /*Training*/

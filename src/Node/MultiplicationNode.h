@@ -22,6 +22,12 @@ Multiplication_node_ptr create_multiplication_node2(bool learnable, bool is_bias
 
 Multiplication_node_ptr create_multiplication_node3(bool learnable, bool is_biased, Tensor_ptr value, bool is_hadamard);
 
+Multiplication_node_ptr create_multiplication_node4(bool learnable, Tensor_ptr value);
+
+Multiplication_node_ptr create_multiplication_node5(Tensor_ptr value);
+
+Multiplication_node_ptr create_multiplication_node6(bool learnable, bool is_biased);
+
 void free_multiplication_node(Multiplication_node_ptr multiplication_node);
 
 #endif //COMPUTATIONALGRAPH_MULTIPLICATIONNODE_H

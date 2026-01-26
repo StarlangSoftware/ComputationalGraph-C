@@ -68,6 +68,11 @@ void *add_multiplication_edge(Computational_graph_ptr graph, Computational_node_
     return new_node;
 }
 
+void *add_multiplication_edge2(Computational_graph_ptr graph, Computational_node_ptr first,
+                Multiplication_node_ptr second) {
+    return add_multiplication_edge(graph, first, second, false);
+}
+
 void *add_edge_with_hadamard(Computational_graph_ptr graph, Computational_node_ptr first,
                 Computational_node_ptr second, bool is_biased, bool is_hadamard) {
     Multiplication_node_ptr new_node = create_multiplication_node2(false, is_biased, is_hadamard, first);

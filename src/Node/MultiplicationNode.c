@@ -31,6 +31,22 @@ Multiplication_node_ptr create_multiplication_node3(bool learnable, bool is_bias
     return result;
 }
 
+Multiplication_node_ptr create_multiplication_node4(bool learnable, Tensor_ptr value) {
+    Multiplication_node_ptr result = create_multiplication_node6(learnable, false);
+    result->node.value = value;
+    return result;
+}
+
+Multiplication_node_ptr create_multiplication_node5(Tensor_ptr value) {
+    Multiplication_node_ptr result = create_multiplication_node6(true, false);
+    result->node.value = value;
+    return result;
+}
+
+Multiplication_node_ptr create_multiplication_node6(bool learnable, bool is_biased) {
+    return create_multiplication_node2(learnable, is_biased, false, NULL);
+}
+
 void free_multiplication_node(Multiplication_node_ptr multiplication_node) {
     free_tensor(multiplication_node->node.value);
     free_tensor(multiplication_node->node.backward);

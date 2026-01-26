@@ -17,13 +17,13 @@ Array_list_ptr get_class_labels_linear_perceptron_single_point(Computational_nod
 
 void train_linear_perceptron_single_point(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters) {
     Optimizer_ptr optimizer = create_stochastic_gradient(0.1, 0.99);
-    Multiplication_node_ptr input = create_multiplication_node(false, true, false);
+    Multiplication_node_ptr input = create_multiplication_node6(false, true);
     array_list_add(graph->input_nodes, input);
     const double initial_weights[] = {1.0, 1.0, 1.0, 1.0};
     const int weights_shape[] = {2, 2};
     Tensor_ptr weights_tensor = create_tensor(initial_weights, weights_shape, 2);
-    Multiplication_node_ptr w = create_multiplication_node3(true, false, weights_tensor, false);
-    Multiplication_node_ptr a = add_multiplication_edge(graph, (Computational_node_ptr)input, w, false);
+    Multiplication_node_ptr w = create_multiplication_node5(weights_tensor);
+    Multiplication_node_ptr a = add_multiplication_edge2(graph, (Computational_node_ptr)input, w);
     Softmax_ptr softmax = create_softmax();
     Computational_node_ptr output_node = add_edge(graph, (Computational_node_ptr) a, softmax, false);
     Tensor_ptr data_tensor = array_list_get(train_set, 0);

@@ -13,7 +13,7 @@
 void train_linear_perceptron(struct computational_graph* graph, Array_list_ptr train_set, Neural_network_parameter_ptr parameters) {
     graph->get_class_labels = get_class_labels_classification;
     Optimizer_ptr optimizer = create_stochastic_gradient(0.1, 0.99);
-    Multiplication_node_ptr input = create_multiplication_node(false, true, false);
+    Multiplication_node_ptr input = create_multiplication_node6(false, true);
     array_list_add(graph->input_nodes, input);
     int number_of_input_units_with_biased = 5;
     int number_of_classes = 3;
@@ -21,8 +21,8 @@ void train_linear_perceptron(struct computational_graph* graph, Array_list_ptr t
     const int weights_shape[] = {number_of_input_units_with_biased, number_of_classes};
     Tensor_ptr weights_tensor = create_tensor(initial_weights, weights_shape, 2);
     free_(initial_weights);
-    Multiplication_node_ptr w = create_multiplication_node3(true, false, weights_tensor, false);
-    Multiplication_node_ptr a = add_multiplication_edge(graph, (Computational_node_ptr)input, w, false);
+    Multiplication_node_ptr w = create_multiplication_node5(weights_tensor);
+    Multiplication_node_ptr a = add_multiplication_edge2(graph, (Computational_node_ptr)input, w);
     Softmax_ptr softmax = create_softmax();
     graph->output_node = add_edge(graph, (Computational_node_ptr) a, softmax, false);
     /*Training*/
