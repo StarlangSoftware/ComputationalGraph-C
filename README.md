@@ -359,3 +359,10 @@ String_ptr create_string4(const char* s1, const char* s2, const char* s3);
 ```
 bool check_definition(const Data_set* data_set, const Instance* instance);
 ```
+30. Use xmlparser package for parsing xml files.
+```
+    Xml_document_ptr doc = create_xml_document("test.xml");
+    parse(doc);
+    Xml_element_ptr root = doc->root;
+    Xml_element_ptr firstChild = root->first_child;
+```
