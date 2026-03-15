@@ -166,6 +166,7 @@ void free_vector(Vector_ptr vector) {
     free_array_list(vector->values, free_);
     free_(vector);
 }
+```
 6. If there is multiple inheritance, then define the super class inside the subclass, which also should be defined inside its own subclass etc.
 ```
 struct sgd_momentum {
@@ -185,6 +186,7 @@ struct AdamW {
     Adam adam;
     double weight_decay;
 };
+```
 7. If there is overloading, and subclasses should override the method, you can add pointers to the functions and set them in the constructor.
 ```
 struct function {
